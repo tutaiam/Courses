@@ -1,0 +1,22 @@
+1. Возвращает список клиентов (имя и фамилия) с наибольшей общей суммой заказов.
+
+SELECT Customers.FirstName, Customers.LastName
+FROM Customers
+INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE Orders.TotalAmount = (SELECT MAX(Orders.TotalAmount) FROM Orders)
+
+
+2. Для каждого клиента из пункта 1 выводит список его заказов (номер заказа и общая сумма) в порядке убывания общей суммы заказов.
+
+SELECT Orders.OrderID, Orders.TotalAmount
+FROM Customers
+INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE Orders.TotalAmount = (SELECT MAX(Orders.TotalAmount) FROM Orders ORDER BY Orders.TotalAmount DESC)
+
+
+3. Выводит только тех клиентов, у которых общая сумма заказов превышает среднюю общую сумму заказов всех клиентов.
+
+SELECT Customers.FirstName, Customers.LastName
+FROM Customers
+INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE Orders.TotalAmount > (SELECT AVG(Orders.TotalAmount) FROM Orders)

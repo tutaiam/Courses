@@ -1,0 +1,46 @@
+CREATE TABLE readers
+(
+    Id SERIAL PRIMARY KEY,
+    FullName CHARACTER VARYING(60),
+    Address CHARACTER VARYING(40),
+    PhoneNumber CHARACTER VARYING(20) UNIQUE
+);
+
+CREATE TABLE books
+(
+    BookCodes INTEGER PRIMARY KEY,
+    BookTitle CHARACTER VARYING(30),
+    ReaderId INTEGER UNIQUE,
+    YearOfPublication TIMESTAMP,
+    AmountOfPages INTEGER,
+    Price INTEGER,
+    NumberOfCopies INTEGER
+);
+
+CREATE TABLE issuingBooks
+(
+    Id SERIAL,
+    ReaderId INTEGER REFERENCES readers (Id),
+    BookCodes INTEGER REFERENCES books (BookCodes),
+    DateOfIssue TIMESTAMP,
+    ReturnDate TIMESTAMP
+);
+
+CREATE TABLE publisher
+(
+    BookCodes INTEGER REFERENCES books (BookCodes),
+    NameOfThePublisher CHARACTER VARYING(30),
+    City CHARACTER VARYING(20)
+);
+
+CREATE TABLE author
+(
+    Id SERIAL PRIMARY KEY,
+    FullName CHARACTER VARYING(60)
+);
+
+CREATE TABLE authorsOfTheBook 
+(
+    BookCodes INTEGER REFERENCES books (BookCodes),
+    AuthorId INTEGER REFERENCES author (Id)
+);
